@@ -22,7 +22,7 @@ const CategoryList = ({
           <li key={category}>
             <button
               onClick={() => onCategorySelect(category)}
-              className={`w-full text-left px-3 py-2 rounded transition-colors ${
+              className={`w-full text-left px-3 py-2 rounded transition-colors capitalize ${
                 selectedCategory === category
                   ? "bg-pink-200 text-black font-bold"
                   : "bg-transparent text-black hover:bg-gray-300"

@@ -42,3 +42,10 @@ export const MESSAGES = {
   DISCOUNT_SORT_UNAVAILABLE:
     "Discount sorting is only available when 'All categories' is selected",
 };
+
+// Discount Rules Configuration
+// Maps category keywords (case-insensitive) to discount rates (0-1)
+export const DISCOUNT_RULES: Record<string, number> = {
+  jewel: 0.1, // 10% discount for jewellery
+  "men's": 0.3, // 30% discount for men's clothing
+};
