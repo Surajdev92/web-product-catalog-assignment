@@ -18,9 +18,12 @@ const ProductCard = ({ product, showDiscount }: IProductCardProps) => {
   const hasDiscountPotential = discountRate > 0;
   const discountPercentage = Math.round(discountRate * 100);
 
-  const truncateDescription = (text: string, maxLength: number = 100) => {
-    if (text.length <= maxLength) return text;
-    return text.substring(0, maxLength).trim() + "...";
+  const truncateDescription = (
+    descriptionText: string,
+    maxLength: number = 100
+  ) => {
+    if (descriptionText.length <= maxLength) return descriptionText;
+    return descriptionText.substring(0, maxLength).trim() + "...";
   };
 
   return (

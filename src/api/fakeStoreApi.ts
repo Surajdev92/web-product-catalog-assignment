@@ -1,6 +1,6 @@
-const BASE = "https://fakestoreapi.com";
+const BASE_URL = "https://fakestoreapi.com";
 
-async function request(url: string) {
+const request = async (url: string) => {
   const response = await fetch(url);
 
   if (!response.ok) {
@@ -8,9 +8,9 @@ async function request(url: string) {
   }
 
   return response.json();
-}
+};
 
-export const getAllProducts = () => request(`${BASE}/products`);
-export const getCategories = () => request(`${BASE}/products/categories`);
+export const getAllProducts = () => request(`${BASE_URL}/products`);
+export const getCategories = () => request(`${BASE_URL}/products/categories`);
 export const getProductsByCategory = (category: string) =>
-  request(`${BASE}/products/category/${encodeURIComponent(category)}`);
+  request(`${BASE_URL}/products/category/${encodeURIComponent(category)}`);

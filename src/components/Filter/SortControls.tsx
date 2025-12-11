@@ -22,7 +22,9 @@ const SortControls = ({
       <label className="text-sm font-medium text-black">{LABELS.SORT_BY}</label>
       <select
         value={sortBy}
-        onChange={(e) => onSortChange(e.target.value as SortType)}
+        onChange={(changeEvent) =>
+          onSortChange(changeEvent.target.value as SortType)
+        }
         className="px-3 py-2 bg-white border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
         <option value={SORT_TYPES.PRICE_ASC}>{SORT_LABELS.PRICE_ASC}</option>

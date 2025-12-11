@@ -18,10 +18,10 @@ const PriceRangeSlider = ({
     if (products.length === 0) {
       return { minPrice: 0, maxPrice: 1000 };
     }
-    const prices = products.map((p) => p.price);
+    const productPrices = products.map((product) => product.price);
     return {
-      minPrice: Math.min(...prices),
-      maxPrice: Math.max(...prices),
+      minPrice: Math.min(...productPrices),
+      maxPrice: Math.max(...productPrices),
     };
   }, [products]);
 
@@ -37,22 +37,34 @@ const PriceRangeSlider = ({
       ? ((maxSelected - minPrice) / priceRangeDiff) * 100
       : 100;
 
-  const handleMouseDown = (e: React.MouseEvent, type: "min" | "max") => {
-    e.preventDefault();
-    setIsDragging(type);
-    const handleMouseMove = (moveEvent: MouseEvent) => {
+  const handleMouseDown = (
+    mouseEvent: React.MouseEvent,
+    handleType: "min" | "max"
+  ) => {
+    mouseEvent.preventDefault();
+    setIsDragging(handleType);
+    const handleMouseMove = (mouseMoveEvent: MouseEvent) => {
       if (!sliderRef.current) return;
-      const rect = sliderRef.current.getBoundingClientRect();
-      const x = moveEvent.clientX - rect.left;
-      const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-      const value = minPrice + (percentage / 100) * priceRangeDiff;
+      const sliderRect = sliderRef.current.getBoundingClientRect();
+      const mouseX = mouseMoveEvent.clientX - sliderRect.left;
+      const percentage = Math.max(
+        0,
+        Math.min(100, (mouseX / sliderRect.width) * 100)
+      );
+      const calculatedValue = minPrice + (percentage / 100) * priceRangeDiff;
 
-      if (type === "min") {
-        const newMin = Math.max(minPrice, Math.min(value, maxSelected));
-        onPriceRangeChange([newMin, maxSelected]);
+      if (handleType === "min") {
+        const newMinValue = Math.max(
+          minPrice,
+          Math.min(calculatedValue, maxSelected)
+        );
+        onPriceRangeChange([newMinValue, maxSelected]);
       } else {
-        const newMax = Math.max(minSelected, Math.min(value, maxPrice));
-        onPriceRangeChange([minSelected, newMax]);
+        const newMaxValue = Math.max(
+          minSelected,
+          Math.min(calculatedValue, maxPrice)
+        );
+        onPriceRangeChange([minSelected, newMaxValue]);
       }
     };
 
@@ -66,22 +78,34 @@ const PriceRangeSlider = ({
     document.addEventListener("mouseup", handleMouseUp);
   };
 
-  const handleTouchStart = (e: React.TouchEvent, type: "min" | "max") => {
-    e.preventDefault();
-    setIsDragging(type);
-    const handleTouchMove = (moveEvent: TouchEvent) => {
-      if (!sliderRef.current || !moveEvent.touches[0]) return;
-      const rect = sliderRef.current.getBoundingClientRect();
-      const x = moveEvent.touches[0].clientX - rect.left;
-      const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-      const value = minPrice + (percentage / 100) * priceRangeDiff;
+  const handleTouchStart = (
+    touchEvent: React.TouchEvent,
+    handleType: "min" | "max"
+  ) => {
+    touchEvent.preventDefault();
+    setIsDragging(handleType);
+    const handleTouchMove = (touchMoveEvent: TouchEvent) => {
+      if (!sliderRef.current || !touchMoveEvent.touches[0]) return;
+      const sliderRect = sliderRef.current.getBoundingClientRect();
+      const touchX = touchMoveEvent.touches[0].clientX - sliderRect.left;
+      const percentage = Math.max(
+        0,
+        Math.min(100, (touchX / sliderRect.width) * 100)
+      );
+      const calculatedValue = minPrice + (percentage / 100) * priceRangeDiff;
 
-      if (type === "min") {
-        const newMin = Math.max(minPrice, Math.min(value, maxSelected));
-        onPriceRangeChange([newMin, maxSelected]);
+      if (handleType === "min") {
+        const newMinValue = Math.max(
+          minPrice,
+          Math.min(calculatedValue, maxSelected)
+        );
+        onPriceRangeChange([newMinValue, maxSelected]);
       } else {
-        const newMax = Math.max(minSelected, Math.min(value, maxPrice));
-        onPriceRangeChange([minSelected, newMax]);
+        const newMaxValue = Math.max(
+          minSelected,
+          Math.min(calculatedValue, maxPrice)
+        );
+        onPriceRangeChange([minSelected, newMaxValue]);
       }
     };
 
@@ -123,8 +147,8 @@ const PriceRangeSlider = ({
             top: "50%",
             zIndex: isDragging === "min" ? 20 : isDragging === "max" ? 10 : 15,
           }}
-          onMouseDown={(e) => handleMouseDown(e, "min")}
-          onTouchStart={(e) => handleTouchStart(e, "min")}
+          onMouseDown={(mouseEvent) => handleMouseDown(mouseEvent, "min")}
+          onTouchStart={(touchEvent) => handleTouchStart(touchEvent, "min")}
         >
           <div className="w-6 h-6 rounded-full bg-blue-500 border-[3px] border-white shadow-lg flex items-center justify-center">
             <div className="w-2 h-2 rounded-full bg-white"></div>
@@ -139,8 +163,8 @@ const PriceRangeSlider = ({
             top: "50%",
             zIndex: isDragging === "max" ? 20 : isDragging === "min" ? 10 : 16,
           }}
-          onMouseDown={(e) => handleMouseDown(e, "max")}
-          onTouchStart={(e) => handleTouchStart(e, "max")}
+          onMouseDown={(mouseEvent) => handleMouseDown(mouseEvent, "max")}
+          onTouchStart={(touchEvent) => handleTouchStart(touchEvent, "max")}
         >
           <div className="w-6 h-6 rounded-full bg-blue-500 border-[3px] border-white shadow-lg flex items-center justify-center">
             <div className="w-2 h-2 rounded-full bg-white"></div>

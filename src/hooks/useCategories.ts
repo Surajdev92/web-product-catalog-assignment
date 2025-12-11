@@ -9,8 +9,8 @@ const useCategories = () => {
 
   useEffect(() => {
     getCategories()
-      .then((data: string[]) => {
-        setCategories([ALL_CATEGORIES, ...data]);
+      .then((categoriesData: string[]) => {
+        setCategories([ALL_CATEGORIES, ...categoriesData]);
       })
       .catch((error) => {
         console.error("Failed to fetch categories:", error);
