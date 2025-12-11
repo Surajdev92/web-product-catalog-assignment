@@ -19,8 +19,8 @@ export const SORT_LABELS = {
 
 // Tab Constants
 export const TABS = {
-  SORTING: "sorting",
-  FILTERING: "filtering",
+  SORT: "sort",
+  FILTER: "filter",
 };
 
 export type TabType = (typeof TABS)[keyof typeof TABS];
