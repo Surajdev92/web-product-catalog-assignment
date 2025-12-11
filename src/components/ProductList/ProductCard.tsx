@@ -1,5 +1,5 @@
 import type { IProduct } from "../../types/product";
-import { applyDiscount } from "../../utils/discount";
+import { applyDiscount, getDiscountRate } from "../../utils/discount";
 import { LABELS } from "../../constants";
 
 interface IProductCardProps {
@@ -13,16 +13,28 @@ const ProductCard = ({ product, showDiscount }: IProductCardProps) => {
     : null;
   const hasDiscount = showDiscount && discountedPrice !== product.price;
 
+  // Check if product qualifies for discount (regardless of showDiscount)
+  const discountRate = getDiscountRate(product.category);
+  const hasDiscountPotential = discountRate > 0;
+  const discountPercentage = Math.round(discountRate * 100);
+
   const truncateDescription = (text: string, maxLength: number = 100) => {
     if (text.length <= maxLength) return text;
     return text.substring(0, maxLength).trim() + "...";
   };
 
   return (
-    <div className="bg-gray-200 p-4 rounded-lg shadow-sm border border-gray-300 flex flex-col h-full">
+    <div className="bg-gray-200 p-4 rounded-lg shadow-sm border border-gray-300 flex flex-col h-full relative">
+      {/* Discount Badge - Show if product qualifies for discount */}
+      {hasDiscountPotential && (
+        <div className="absolute -top-2 right-2 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold z-10 shadow-lg">
+          {discountPercentage}% OFF
+        </div>
+      )}
+
       <h3 className="text-lg font-semibold mb-2 text-black">{product.title}</h3>
 
-      <div className="flex justify-center mb-4">
+      <div className="flex justify-center mb-4 relative">
         <div className="w-32 h-32 rounded-full bg-white flex items-center justify-center p-2 overflow-hidden">
           <img
             src={product.image}

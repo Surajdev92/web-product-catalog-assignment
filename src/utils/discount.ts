@@ -16,3 +16,8 @@ export const applyDiscount = (price: number, category: string): number => {
   const rate = getDiscountRate(category);
   return +(price * (1 - rate)).toFixed(2);
 };
+
+export const getDiscountAmount = (price: number, category: string): number => {
+  const rate = getDiscountRate(category);
+  return price * rate;
+};

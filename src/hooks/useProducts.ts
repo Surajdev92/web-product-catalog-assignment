@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 
 import { getAllProducts } from "../api/fakeStoreApi";
 import type { IProduct } from "../types/product";
-import { applyDiscount } from "../utils/discount";
+import { applyDiscount, getDiscountAmount } from "../utils/discount";
 import { ALL_CATEGORIES, SORT_TYPES, type SortType } from "../constants";
 
 const useProducts = () => {
@@ -58,10 +58,11 @@ const useProducts = () => {
       }
       if (sortBy === SORT_TYPES.DISCOUNT) {
         // Discount sort only applies when "All categories" selected
+        // Sort by discount amount (highest discount first, then lower, then no discount)
         if (selectedCategory === ALL_CATEGORIES) {
-          const discountedPriceA = applyDiscount(a.price, a.category);
-          const discountedPriceB = applyDiscount(b.price, b.category);
-          return discountedPriceA - discountedPriceB;
+          const discountAmountA = getDiscountAmount(a.price, a.category);
+          const discountAmountB = getDiscountAmount(b.price, b.category);
+          return discountAmountB - discountAmountA;
         }
         return 0;
       }
