@@ -12,6 +12,9 @@ const useProducts = () => {
   const [selectedCategory, setSelectedCategory] =
     useState<string>(ALL_CATEGORIES);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
+  const [initialPriceRange, setInitialPriceRange] = useState<[number, number]>([
+    0, 1000,
+  ]);
   const [sortBy, setSortBy] = useState<SortType>(SORT_TYPES.PRICE_ASC);
 
   useEffect(() => {
@@ -27,7 +30,9 @@ const useProducts = () => {
             );
             const minPrice = Math.min(...productPrices);
             const maxPrice = Math.max(...productPrices);
-            setPriceRange([minPrice, maxPrice]);
+            const initialRange: [number, number] = [minPrice, maxPrice];
+            setPriceRange(initialRange);
+            setInitialPriceRange(initialRange);
           }
           setIsLoading(false);
         }
@@ -109,6 +114,16 @@ const useProducts = () => {
     return filteredProducts;
   }, [products, selectedCategory, priceRange, sortBy]);
 
+  const clearFilters = () => {
+    setSelectedCategory(ALL_CATEGORIES);
+    setPriceRange(initialPriceRange);
+    setSortBy(SORT_TYPES.PRICE_ASC);
+  };
+
+  const clearPriceFilter = () => {
+    setPriceRange(initialPriceRange);
+  };
+
   return {
     products,
     filteredProducts,
@@ -120,6 +135,9 @@ const useProducts = () => {
     sortBy,
     isLoading,
     isFiltering,
+    clearFilters,
+    clearPriceFilter,
+    initialPriceRange,
   };
 };
 

@@ -18,10 +18,17 @@ const Home = () => {
     sortBy,
     isLoading,
     isFiltering,
+    clearPriceFilter,
+    initialPriceRange,
   } = useProducts();
 
-  const [activeTab, setActiveTab] = useState<TabType>(TABS.SORTING);
+  const [activeTab, setActiveTab] = useState<TabType>(TABS.SORT);
   const isAllCategoriesSelected = selectedCategory === ALL_CATEGORIES;
+
+  // Check if price filter is active (only check price range, not category or sort)
+  const hasActivePriceFilter =
+    priceRange[0] !== initialPriceRange[0] ||
+    priceRange[1] !== initialPriceRange[1];
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -39,41 +46,69 @@ const Home = () => {
 
           {/* Main Content Area */}
           <main className="flex-1">
-            {/* Top Tabs - Sorting and Filtering */}
+            {/* Top Tabs - Sort and Filter */}
             <div className="mb-6 flex flex-col gap-4">
-              <div className="flex gap-2">
+              <div className="flex gap-2 items-center">
                 <button
-                  onClick={() => setActiveTab(TABS.SORTING)}
+                  onClick={() => setActiveTab(TABS.SORT)}
                   className={`px-6 py-3 rounded-t-lg font-medium transition-colors ${
-                    activeTab === TABS.SORTING
+                    activeTab === TABS.SORT
                       ? "bg-pink-300 text-white"
                       : "bg-gray-600 text-white"
                   }`}
                 >
-                  Sorting
+                  Sort
                 </button>
-                <button
-                  onClick={() => setActiveTab(TABS.FILTERING)}
-                  className={`px-6 py-3 rounded-t-lg font-medium transition-colors ${
-                    activeTab === TABS.FILTERING
-                      ? "bg-pink-300 text-white"
-                      : "bg-gray-600 text-white"
-                  }`}
-                >
-                  Filtering
-                </button>
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => setActiveTab(TABS.FILTER)}
+                    className={`px-6 py-3 rounded-t-lg font-medium transition-colors ${
+                      activeTab === TABS.FILTER
+                        ? "bg-pink-300 text-white"
+                        : "bg-gray-600 text-white"
+                    }`}
+                  >
+                    Filter
+                  </button>
+                  {hasActivePriceFilter && (
+                    <button
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        clearPriceFilter();
+                      }}
+                      className="ml-1 p-1 rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors flex items-center justify-center"
+                      title="Clear price filter"
+                      aria-label="Clear price filter"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={3}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  )}
+                </div>
               </div>
 
               {/* Tab Content */}
               <div className="bg-gray-200 p-6 rounded-lg">
-                {activeTab === TABS.SORTING && (
+                {activeTab === TABS.SORT && (
                   <SortControls
                     sortBy={sortBy}
                     onSortChange={setSortBy}
                     isAllCategoriesSelected={isAllCategoriesSelected}
                   />
                 )}
-                {activeTab === TABS.FILTERING && (
+                {activeTab === TABS.FILTER && (
                   <PriceRangeSlider
                     products={products}
                     priceRange={priceRange}
