@@ -81,27 +81,27 @@ button:focus-visible {
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: #3b82f6;
   cursor: pointer;
   border: 3px solid #ffffff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   position: relative;
-  z-index: 10;
+  z-index: 20;
 }
 
 .slider::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: #3b82f6;
   cursor: pointer;
   border: 3px solid #ffffff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   position: relative;
-  z-index: 10;
+  z-index: 20;
 }
 
 .slider::-webkit-slider-track {
@@ -110,4 +110,29 @@ button:focus-visible {
 
 .slider::-moz-range-track {
   background: transparent;
+}
+
+/* Make only thumbs interactive, not the track */
+.slider-min::-webkit-slider-runnable-track {
+  pointer-events: none;
+}
+
+.slider-min::-moz-range-track {
+  pointer-events: none;
+}
+
+.slider-max::-webkit-slider-runnable-track {
+  pointer-events: none;
+}
+
+.slider-max::-moz-range-track {
+  pointer-events: none;
+}
+
+.slider::-webkit-slider-thumb {
+  pointer-events: auto !important;
+}
+
+.slider::-moz-range-thumb {
+  pointer-events: auto !important;
 }
