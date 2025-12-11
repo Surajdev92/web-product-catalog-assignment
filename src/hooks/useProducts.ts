@@ -7,26 +7,55 @@ import { ALL_CATEGORIES, SORT_TYPES, type SortType } from "../constants";
 
 const useProducts = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isFiltering, setIsFiltering] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] =
     useState<string>(ALL_CATEGORIES);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
   const [sortBy, setSortBy] = useState<SortType>(SORT_TYPES.PRICE_ASC);
 
   useEffect(() => {
-    getAllProducts()
-      .then((data: IProduct[]) => {
-        setProducts(data);
-        if (data.length > 0) {
-          const prices = data.map((p) => p.price);
-          const min = Math.min(...prices);
-          const max = Math.max(...prices);
-          setPriceRange([min, max]);
+    let isMounted = true;
+    const fetchProducts = async () => {
+      try {
+        const data = await getAllProducts();
+        if (isMounted) {
+          setProducts(data);
+          if (data.length > 0) {
+            const prices = data.map((p: IProduct) => p.price);
+            const min = Math.min(...prices);
+            const max = Math.max(...prices);
+            setPriceRange([min, max]);
+          }
+          setIsLoading(false);
         }
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Failed to fetch products:", error);
-      });
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchProducts();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
+
+  // Show loading when filtering/sorting changes
+  useEffect(() => {
+    if (!isLoading && products.length > 0) {
+      const timer = setTimeout(() => {
+        setIsFiltering(true);
+        setTimeout(() => {
+          setIsFiltering(false);
+        }, 200);
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedCategory, priceRange, sortBy, isLoading, products.length]);
 
   const filteredProducts = useMemo(() => {
     let filtered: IProduct[] = [...products];
@@ -81,6 +110,8 @@ const useProducts = () => {
     priceRange,
     selectedCategory,
     sortBy,
+    isLoading,
+    isFiltering,
   };
 };
 

@@ -16,6 +16,8 @@ const Home = () => {
     priceRange,
     selectedCategory,
     sortBy,
+    isLoading,
+    isFiltering,
   } = useProducts();
 
   const [activeTab, setActiveTab] = useState<TabType>(TABS.SORTING);
@@ -85,6 +87,8 @@ const Home = () => {
             <ProductList
               products={filteredProducts}
               showDiscount={isAllCategoriesSelected}
+              isLoading={isLoading}
+              isFiltering={isFiltering}
             />
           </main>
         </div>

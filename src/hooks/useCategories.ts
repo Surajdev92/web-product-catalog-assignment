@@ -5,6 +5,7 @@ import { ALL_CATEGORIES } from "../constants";
 
 const useCategories = () => {
   const [categories, setCategories] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     getCategories()
@@ -13,10 +14,13 @@ const useCategories = () => {
       })
       .catch((error) => {
         console.error("Failed to fetch categories:", error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, []);
 
-  return categories;
+  return { categories, isLoading };
 };
 
 export default useCategories;
