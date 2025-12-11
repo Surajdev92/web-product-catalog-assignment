@@ -29,7 +29,7 @@ const Home = () => {
         <div className="flex flex-col sm:flex-row gap-6">
           {/* Left Sidebar - CategoryList */}
           <aside className="w-full lg:w-64 flex-shrink-0">
-            <div className="bg-gray-200 p-4 rounded-lg">
+            <div className="bg-gray-200 p-4 rounded-lg sticky top-6 h-[calc(100vh-3rem)] overflow-y-auto">
               <CategoryList
                 selectedCategory={selectedCategory}
                 onCategorySelect={setSelectedCategory}
