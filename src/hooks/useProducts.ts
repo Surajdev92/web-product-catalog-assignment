@@ -13,15 +13,19 @@ const useProducts = () => {
   const [sortBy, setSortBy] = useState<SortType>(SORT_TYPES.PRICE_ASC);
 
   useEffect(() => {
-    getAllProducts().then((data: IProduct[]) => {
-      setProducts(data);
-      if (data.length > 0) {
-        const prices = data.map((p) => p.price);
-        const min = Math.min(...prices);
-        const max = Math.max(...prices);
-        setPriceRange([min, max]);
-      }
-    });
+    getAllProducts()
+      .then((data: IProduct[]) => {
+        setProducts(data);
+        if (data.length > 0) {
+          const prices = data.map((p) => p.price);
+          const min = Math.min(...prices);
+          const max = Math.max(...prices);
+          setPriceRange([min, max]);
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to fetch products:", error);
+      });
   }, []);
 
   const filteredProducts = useMemo(() => {

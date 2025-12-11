@@ -40,10 +40,13 @@ const PriceRangeSlider = ({
     }
   };
 
+  const priceRangeDiff = maxPrice - minPrice;
   const minPercentage =
-    ((minSelected - minPrice) / (maxPrice - minPrice)) * 100;
+    priceRangeDiff > 0 ? ((minSelected - minPrice) / priceRangeDiff) * 100 : 0;
   const maxPercentage =
-    ((maxSelected - minPrice) / (maxPrice - minPrice)) * 100;
+    priceRangeDiff > 0
+      ? ((maxSelected - minPrice) / priceRangeDiff) * 100
+      : 100;
 
   return (
     <div className="w-full">
