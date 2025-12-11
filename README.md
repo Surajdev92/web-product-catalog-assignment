@@ -1,73 +1,102 @@
-# React + TypeScript + Vite
+# Product Catalog Assignment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive e-commerce product catalog application built with React, TypeScript, and Tailwind CSS.
 
-Currently, two official plugins are available:
+## 🛠️ Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Framework**: React 19.2.0
+- **Language**: TypeScript 5.9.3
+- **Build Tool**: Vite 7.2.4
+- **Styling**: Tailwind CSS 3.4.0
+- **API**: FakeStoreAPI (https://fakestoreapi.com)
 
-## React Compiler
+## 🚀 Core Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Category Navigation**: Browse products by category with an intuitive sidebar navigation
+- **Product Listing**: Display products in a responsive grid layout (3 columns on desktop, 1 column on mobile)
+- **Price Range Filtering**: Filter products using a dual-handle price range slider
+- **Product Sorting**: Sort products by:
+  - Price: Low to High
+  - Price: High to Low
+  - Discount (only available when "All categories" is selected)
+- **Discount System**:
+  - 10% discount on jewellery products
+  - 30% discount on men's clothing
+  - Visual discount badges on discounted products
+- **Discount Sorting**: Sort products by discount amount (highest discount first)
 
-## Expanding the ESLint configuration
+## 📁 Project Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── api/
+│   └── fakeStoreApi.ts          # API service layer
+├── components/
+│   ├── CategoryList/
+│   │   └── CategoryList.tsx    # Category navigation sidebar
+│   ├── Filter/
+│   │   ├── PriceRangeSlider.tsx # Price range filter component
+│   │   └── SortControls.tsx     # Sorting dropdown component
+│   └── ProductList/
+│       ├── ProductCard.tsx     # Individual product card
+│       └── ProductList.tsx      # Product grid container
+├── constants/
+│   └── index.ts                # Centralized constants and configuration
+├── hooks/
+│   ├── useCategories.ts        # Category data fetching hook
+│   └── useProducts.ts          # Product state management hook
+├── pages/
+│   └── Home.tsx                # Main page component
+├── types/
+│   └── product.ts             # TypeScript type definitions
+├── utils/
+│   └── discount.ts            # Discount calculation utilities
+├── App.tsx                     # Root component
+└── main.tsx                    # Application entry point
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🚦 Setup and Run
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Prerequisites
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js (v20.19.0 or >=22.12.0 recommended)
+- npm or yarn
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd product-catalog-assignment
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser**
+
+   Navigate to `http://localhost:5173` (or the port shown in terminal)
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+The production build will be in the `dist/` directory.
+
+### Preview Production Build
+
+```bash
+npm run preview
 ```
