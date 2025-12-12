@@ -35,7 +35,7 @@ const ProductCard = ({ product, showDiscount }: IProductCardProps) => {
         </div>
       )}
 
-      <h3 className="text-lg font-semibold mb-2 text-black">{product.title}</h3>
+      <h3 className="text-lg font-semibold mb-2 text-black min-h-16">{product.title}</h3>
 
       <div className="flex justify-center mb-4 relative">
         <div className="w-32 h-32 rounded-full bg-white flex items-center justify-center p-2 overflow-hidden">
